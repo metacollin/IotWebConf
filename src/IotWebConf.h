@@ -214,6 +214,15 @@ class IotWebConf
     void setConfigPin(int configPin);
 
     /**
+     * Provide an Arduino pin here, that has a button connected to it with the other end of the pin is connected to GND.
+     * The button pin is queried at for input on boot time (init time).
+     * If the button was pressed, the thing will enter AP mode with the initial password.
+     * Must be called before init()!
+     *   @configPin - An Arduino pin. Will be configured as INPUT_PULLUP!
+     */
+    void setConfigPin(boolean configPin);
+
+    /**
      * Provide an Arduino pin for status indicator (LOW = on). Blink codes:
      *   - Rapid blinks - The thing is in AP mode with default password.
      *   - Rapid blinks, but mostly on - AP mode, waiting for configuration changes.

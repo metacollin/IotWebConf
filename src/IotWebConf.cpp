@@ -107,6 +107,20 @@ void IotWebConf::setConfigPin(int configPin)
   this->_configPin = configPin;
 }
 
+void IotWebConf::setConfigPin(boolean configPin)
+{
+  if(configPin == true)
+  {
+    // Pin pulled to GND virtually
+    this->_configPin = -2;
+  }
+  else
+  {
+   // Explicitly sets false by removing any prior pin mapping
+    this->_configPin = -1;
+  }
+}
+
 void IotWebConf::setStatusPin(int statusPin)
 {
   this->_statusPin = statusPin;
@@ -125,6 +139,11 @@ boolean IotWebConf::init()
   {
     pinMode(this->_configPin, INPUT_PULLUP);
     this->_forceDefaultPassword = (digitalRead(this->_configPin) == LOW);
+  }
+  // -2 means the pin state has been set low virtually in software
+  if(this->_configPin == -2)
+  {
+    this->_forceDefaultPassword = true;
   }
   if (IOTWEBCONF_STATUS_ENABLED)
   {
